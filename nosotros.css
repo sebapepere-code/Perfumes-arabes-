@@ -267,10 +267,22 @@
 .faq-container {
     max-width: 800px;
     margin: 3rem auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
 }
 
 .faq-item {
-    padding: 1.5rem 0;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(212, 175, 55, 0.15);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+    border-color: rgba(212, 175, 55, 0.4);
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .faq-question {
@@ -278,7 +290,7 @@
     background: transparent;
     border: none;
     color: var(--text-white);
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     font-family: var(--font-body);
     font-weight: 500;
     text-align: left;
@@ -286,8 +298,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0;
-    transition: color 0.3s;
+    padding: 1.5rem 2rem;
+    transition: color 0.3s ease;
 }
 
 .faq-question:hover {
@@ -295,10 +307,10 @@
 }
 
 .faq-icon {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     font-weight: 300;
     color: var(--gold-primary);
-    transition: transform 0.3s ease;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .faq-question.active .faq-icon {
@@ -308,15 +320,16 @@
 .faq-answer {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.4s ease, margin-top 0.4s ease, opacity 0.4s ease;
+    transition: max-height 0.5s ease-out, padding 0.5s ease-out, opacity 0.5s ease;
     color: rgba(255, 255, 255, 0.7);
     line-height: 1.6;
     opacity: 0;
+    padding: 0 2rem;
 }
 
 .faq-answer.show {
     max-height: 500px; /* Arbitrary large max-height for CSS transition */
-    margin-top: 1rem;
+    padding-bottom: 1.5rem;
     opacity: 1;
 }
 

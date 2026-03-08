@@ -262,14 +262,12 @@
                     faqQuestáions.forEach(q => {
                         q.classList.remove('active');
                         q.nextElementSibling.classList.remove('show');
-                        q.querySelector('.faq-icon').style.transform = 'rotate(0deg)';
                     });
 
                     // Open if it wasn't active
                     if (!isActive) {
                         question.classList.add('active');
                         answer.classList.add('show');
-                        question.querySelector('.faq-icon').style.transform = 'rotate(45deg)';
                     }
                 });
             });

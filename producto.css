@@ -226,3 +226,31 @@
         font-size: 2.5rem;
     }
 }
+
+@media (max-width: 600px) {
+    .product-gallery {
+        height: 350px;
+        padding: 2rem;
+    }
+    
+    .product-details {
+        padding: 2rem 1.5rem;
+    }
+
+    .product-title {
+        font-size: 2rem;
+    }
+    
+    .product-price {
+        font-size: 1.8rem;
+    }
+
+    .product-notes {
+        grid-template-columns: 1fr;
+    }
+    
+    .wpp-btn {
+        padding: 15px 20px;
+        font-size: 1rem;
+    }
+}

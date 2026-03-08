@@ -165,7 +165,7 @@
 
 .products-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
     gap: 2rem;
     max-width: 1300px;
     margin: 0 auto;
@@ -253,10 +253,32 @@
         margin-bottom: 3rem;
     }
     .giant-text {
-        font-size: 15rem;
+        font-size: 12rem;
     }
     .catalog-title {
         font-size: 3rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .giant-text {
+        font-size: 7rem;
+    }
+    .catalog-title {
+        font-size: 2.2rem;
+    }
+    .product-img-wrapper {
+        height: 220px;
+        padding: 1rem;
+    }
+    .products-section {
+        padding: 3rem 5% 5rem;
+    }
+    .product-info {
+        padding: 1.2rem;
+    }
+    .catalog-hero {
+        padding: 120px 5% 60px;
     }
 }
 
