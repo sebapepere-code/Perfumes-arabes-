@@ -1,0 +1,284 @@
+/* CATALOGO ESSENTIAL STYLES */
+
+/* Catalog Page Variables and Basic Reset from style.css should inherit */
+.gold-text {
+    color: var(--gold-primary);
+}
+
+.catalog-glowing-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+    background-color: var(--bg-deep-black); /* Enforce deep black */
+}
+
+.orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(140px);
+    opacity: 0.25; /* Higher opacity for magical aura */
+    mix-blend-mode: screen;
+}
+
+.orb-1 {
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, #e9c46a, transparent 70%);
+    top: -10%;
+    left: -10%;
+    animation: drift 15s infinite alternate ease-in-out;
+}
+
+.orb-2 {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, var(--gold-primary), transparent 70%);
+    top: 50%;
+    right: -5%;
+    animation: drift 20s infinite alternate-reverse ease-in-out;
+}
+
+.orb-3 {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, #f4a261, transparent 70%);
+    bottom: -10%;
+    left: 40%;
+    animation: drift 18s infinite alternate ease-in-out;
+}
+
+.lens-flare {
+    position: absolute;
+    top: 40%;
+    left: 55%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, rgba(212, 175, 55, 0.1) 30%, transparent 60%);
+    transform: translate(-50%, -50%);
+    filter: blur(8px);
+    mix-blend-mode: screen;
+}
+
+@keyframes drift {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(40px, -40px) scale(1.1); }
+}
+
+/* CATALOG HERO */
+.catalog-hero {
+    min-height: 100vh;
+    padding-top: 100px; /* Offset for navbar */
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+.catalog-hero-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 5%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.catalog-hero-content {
+    flex: 1;
+    min-width: 300px;
+    max-width: 500px;
+    padding-right: 2rem;
+    animation: fadeSlideUp 1s ease forwards;
+}
+
+.catalog-title {
+    font-size: 4rem;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 5px 20px rgba(0, 0, 0, 0.8);
+}
+
+.catalog-description {
+    font-size: 1.15rem;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+}
+
+.catalog-hero-visual {
+    flex: 1;
+    min-width: 300px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 600px;
+}
+
+.giant-text {
+    position: absolute;
+    font-family: var(--font-heading);
+    font-size: 25rem;
+    font-weight: 700;
+    color: rgba(212, 175, 55, 0.04);
+    line-height: 1;
+    user-select: none;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.hero-perfume-img {
+    position: relative;
+    z-index: 2;
+    max-width: 100%;
+    max-height: 500px;
+    object-fit: contain;
+    mix-blend-mode: lighten; /* Ensures pure PNG look on dark bg */
+    transform: scale(1.1);
+    animation: floatElegant 6s infinite ease-in-out;
+}
+
+@keyframes floatElegant {
+    0% { transform: scale(1.1) translateY(0); }
+    50% { transform: scale(1.1) translateY(-15px); }
+    100% { transform: scale(1.1) translateY(0); }
+}
+
+@keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* PRODUCTS GRID */
+.products-section {
+    padding: 4rem 5% 8rem;
+    position: relative;
+    z-index: 2;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 2rem;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.product-card {
+    background: rgba(10, 10, 10, 0.5);
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    backdrop-filter: blur(5px);
+}
+
+.product-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(212, 175, 55, 0.4);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 15px rgba(212, 175, 55, 0.1);
+}
+
+.product-img-wrapper {
+    height: 280px;
+    padding: 2rem;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Subtle glowing background behind image */
+    background: radial-gradient(circle at center, rgba(212, 175, 55, 0.05), transparent 70%);
+}
+
+.product-img-wrapper img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+    mix-blend-mode: lighten;
+    transition: transform var(--transition-fast);
+}
+
+.product-card:hover .product-img-wrapper img {
+    transform: scale(1.08);
+}
+
+.product-info {
+    padding: 1.5rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.product-brand {
+    font-size: 0.75rem;
+    color: var(--gold-dark);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+}
+
+.product-name {
+    font-size: 1.25rem;
+    color: var(--text-white);
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+    flex-grow: 1;
+}
+
+/* Override btn for catalog */
+.product-card .btn-outline {
+    width: 100%;
+    padding: 10px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .catalog-hero-container {
+        flex-direction: column;
+        text-align: center;
+    }
+    .catalog-hero-content {
+        padding-right: 0;
+        margin-bottom: 3rem;
+    }
+    .giant-text {
+        font-size: 15rem;
+    }
+    .catalog-title {
+        font-size: 3rem;
+    }
+}
+
+/* GOLD NUGGETS ANIMATION */
+.gold-nugget {
+    position: absolute;
+    border-radius: 50% 40% 60% 30%;
+    background: radial-gradient(circle at 30% 30%, #fff1cc 0%, #d4af37 40%, #996515 100%);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.6), inset -2px -2px 5px rgba(0,0,0,0.3);
+    pointer-events: none;
+    z-index: 10;
+    animation: float-nugget 4s ease-in-out infinite alternate;
+}
+
+.nugget-1 { width: 12px; height: 14px; top: 15%; left: 15%; animation-duration: 4.5s; }
+.nugget-2 { width: 18px; height: 16px; top: 30%; right: 10%; animation-duration: 5.2s; animation-delay: 1s; }
+.nugget-3 { width: 10px; height: 12px; bottom: 20%; left: 20%; animation-duration: 3.8s; animation-delay: 0.5s; }
+.nugget-4 { width: 22px; height: 18px; bottom: 35%; right: 15%; animation-duration: 6s; animation-delay: 1.5s; }
+.nugget-5 { width: 15px; height: 15px; top: -5%; left: 45%; animation-duration: 4.2s; animation-delay: 2s; }
+
+@keyframes float-nugget {
+    0% { transform: translateY(0) rotate(0deg) scale(1); }
+    50% { transform: translateY(-15px) rotate(45deg) scale(1.1); }
+    100% { transform: translateY(-30px) rotate(90deg) scale(1); }
+}
