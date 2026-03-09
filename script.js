@@ -6,15 +6,32 @@ document.addEventListener("DOMContentLoaded", () => {
         let currentSrc = '';
         function updateVideoSrc() {
             const isMobile = window.innerWidth <= 768;
-            const newSrc = isMobile ? 'assets/video-mobile.mp4' : '6a5d34a3-5f54-4dd5-affd-74365827fc5a.mp4';
+
+            // Using absolute/root-relative paths doesn't always work on GitHub Pages, ensuring relative works
+            const desktopVideo = '6a5d34a3-5f54-4dd5-affd-74365827fc5a.mp4';
+            const mobileVideo = 'assets/video-mobile.mp4';
+
+            const newSrc = isMobile ? mobileVideo : desktopVideo;
+
             if (currentSrc !== newSrc) {
                 currentSrc = newSrc;
+
+                // Keep current playback time if switching
+                const currentTime = heroVideo.currentTime || 0;
+
                 heroVideo.src = newSrc;
+                // Important for mobile autoplay
+                heroVideo.muted = true;
+                heroVideo.playsInline = true;
                 heroVideo.load();
-                const playPromise = heroVideo.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(e => console.log('Autoplay prevented:', e));
-                }
+
+                // Wait for loadeddata before trying to play to ensure the video has actually loaded enough frames
+                heroVideo.oncanplay = () => {
+                    heroVideo.currentTime = currentTime;
+                    heroVideo.play().catch(e => {
+                        console.warn("Autoplay prevented on mobile. User interaction might be required.", e);
+                    });
+                };
             }
         }
 
