@@ -3,12 +3,30 @@ document.addEventListener("DOMContentLoaded", () => {
     // 0. Dynamic Background Video (Performance & Mobile Fix)
     const heroVideo = document.getElementById('heroVideo');
     if (heroVideo) {
-        // Usa el video vertical si la pantalla es de móvil, horizontal si es PC
-        if (window.innerWidth <= 768) {
-            heroVideo.src = 'assets/video-mobile.mp4';
-        } else {
-            heroVideo.src = '6a5d34a3-5f54-4dd5-affd-74365827fc5a.mp4';
+        let currentSrc = '';
+        function updateVideoSrc() {
+            const isMobile = window.innerWidth <= 768;
+            const newSrc = isMobile ? 'assets/video-mobile.mp4' : '6a5d34a3-5f54-4dd5-affd-74365827fc5a.mp4';
+            if (currentSrc !== newSrc) {
+                currentSrc = newSrc;
+                heroVideo.src = newSrc;
+                heroVideo.load();
+                const playPromise = heroVideo.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(e => console.log('Autoplay prevented:', e));
+                }
+            }
         }
+
+        // Set on load
+        updateVideoSrc();
+
+        // Update on resize with slight debounce
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(updateVideoSrc, 250);
+        });
     }
 
     // 1. Navbar Scroll Effect
