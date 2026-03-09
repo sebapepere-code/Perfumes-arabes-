@@ -702,7 +702,10 @@ a {
 .carousel-track {
     display: flex;
     gap: 2rem;
-    width: max-content;
+    /* Sin width: max-content;
+       El track crece segn las cards, el scroll lo maneja .carousel-container */
+    transition: none;
+    /* Sin transición JS, el scroll nativo la maneja */
     padding-bottom: 2rem;
 }
 

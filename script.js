@@ -93,70 +93,63 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Carousel Logic (Estabilidad total: sin opacity 0, con swipe en móvil)
+    // Carousel: Navegación por scroll nativo (sin JS translateX para evitar conflictos)
     const initCarousel = () => {
-        const track = document.querySelector('.carousel-track');
-        if (!track) return;
+        const container = document.querySelector('.carousel-container');
+        if (!container) return;
 
-        const slides = Array.from(track.children);
+        const slides = Array.from(container.querySelectorAll('.carousel-item'));
         const nextButton = document.querySelector('.carousel-btn.next-btn');
         const prevButton = document.querySelector('.carousel-btn.prev-btn');
-        let currentIndex = 0;
 
-        const getSlideWidth = () => slides[0].getBoundingClientRect().width + 30;
+        if (!slides.length) return;
 
-        const updateCarousel = () => {
-            const offset = currentIndex * getSlideWidth();
-            track.style.transform = `translateX(-${offset}px)`;
-            // Todas las cards son completamente visibles, sin opacity 0
-            slides.forEach(slide => {
-                slide.style.opacity = '1';
-                slide.style.transform = 'none';
+        const scrollToSlide = (index) => {
+            const slide = slides[index];
+            if (!slide) return;
+            // Usar scrollLeft para navegar sin interferir con CSS scroll-snap
+            container.scrollTo({
+                left: slide.offsetLeft - container.offsetLeft - (container.clientWidth / 2) + (slide.clientWidth / 2),
+                behavior: 'smooth'
             });
         };
 
+        let currentIndex = 0;
+
         if (nextButton) {
             nextButton.addEventListener('click', () => {
-                currentIndex = (currentIndex + 1) % slides.length;
-                updateCarousel();
+                currentIndex = Math.min(currentIndex + 1, slides.length - 1);
+                scrollToSlide(currentIndex);
             });
         }
 
         if (prevButton) {
             prevButton.addEventListener('click', () => {
-                currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-                updateCarousel();
+                currentIndex = Math.max(currentIndex - 1, 0);
+                scrollToSlide(currentIndex);
             });
         }
 
-        // Swipe touch support for mobile
-        let touchStartX = 0;
-        track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
-        track.addEventListener('touchend', e => {
-            const diff = touchStartX - e.changedTouches[0].clientX;
-            if (Math.abs(diff) > 40) {
-                if (diff > 0) currentIndex = (currentIndex + 1) % slides.length;
-                else currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-                updateCarousel();
-            }
-        }, { passive: true });
-
-        // Auto-play (solo en desktop)
+        // Auto-play solo en desktop, usando scroll nativo
         if (window.innerWidth > 768) {
             let autoPlay = setInterval(() => {
                 currentIndex = (currentIndex + 1) % slides.length;
-                updateCarousel();
+                scrollToSlide(currentIndex);
             }, 5000);
-            track.addEventListener('mouseenter', () => clearInterval(autoPlay));
-            track.addEventListener('mouseleave', () => {
+            container.addEventListener('mouseenter', () => clearInterval(autoPlay));
+            container.addEventListener('mouseleave', () => {
                 autoPlay = setInterval(() => {
                     currentIndex = (currentIndex + 1) % slides.length;
-                    updateCarousel();
+                    scrollToSlide(currentIndex);
                 }, 5000);
             });
         }
 
-        updateCarousel();
+        // Asegurar que todas las cards sean siempre visibles y clickeables
+        slides.forEach(slide => {
+            slide.style.opacity = '1';
+            slide.style.transform = 'none';
+        });
     };
 
     initCarousel();
