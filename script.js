@@ -1,43 +1,53 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    // 0. SOLUCIÓN COMPLETA DE VIDEO (Unificada y Forzada)
-    const video = document.getElementById('mainHeroVideo');
-    if (video) {
-        const setVideoSource = () => {
-            const isMobile = window.innerWidth <= 768;
-            const src = isMobile ? 'assets/video-mobile.mp4' : '6a5d34a3-5f54-4dd5-affd-74365827fc5a.mp4';
-            if (video.getAttribute('src') !== src) {
-                video.src = src;
-                video.load();
-            }
-        };
+    // 0. NUEVO SISTEMA DE VIDEO (ESTABILIDAD TOTAL)
+    const heroBg = document.getElementById('hero-background');
+    if (heroBg) {
+        const isMobile = window.innerWidth <= 768;
+        const videoSrc = isMobile ? 'assets/video-mobile.mp4' : '6a5d34a3-5f54-4dd5-affd-74365827fc5a.mp4';
+
+        // Creamos el elemento de video dinámicamente para asegurar limpieza
+        const video = document.createElement('video');
+        video.id = 'hero-video';
+        video.muted = true;
+        video.loop = true;
+        video.playsInline = true;
+        video.autoplay = true;
+        video.setAttribute('preload', 'auto');
+        video.className = 'hero-video-fresh';
+
+        // Agregamos el source
+        const source = document.createElement('source');
+        source.src = videoSrc;
+        source.type = 'video/mp4';
+        video.appendChild(source);
+
+        // Limpiamos el contenedor y agregamos el video
+        heroBg.innerHTML = '';
+        heroBg.appendChild(video);
+
+        const overlay = document.createElement('div');
+        overlay.className = 'hero-video-overlay';
+        heroBg.appendChild(overlay);
 
         const tryPlay = () => {
             video.play().catch(() => {
-                // Si falla (ej. ahorro de batería), se reproduce al primer toque
-                const forceStart = () => {
+                // Fallback para ahorro de batería: reproducir al interactuar
+                const runOnInteraction = () => {
                     video.play();
-                    document.removeEventListener('touchstart', forceStart);
-                    document.removeEventListener('click', forceStart);
+                    document.removeEventListener('click', runOnInteraction);
+                    document.removeEventListener('touchstart', runOnInteraction);
+                    document.removeEventListener('scroll', runOnInteraction);
                 };
-                document.addEventListener('touchstart', forceStart);
-                document.addEventListener('click', forceStart);
+                document.addEventListener('click', runOnInteraction);
+                document.addEventListener('touchstart', runOnInteraction);
+                document.addEventListener('scroll', runOnInteraction);
             });
         };
 
-        setVideoSource();
-        video.addEventListener('loadedmetadata', tryPlay);
-        tryPlay(); // Intentar de inmediato
-
-        // Manejar cambio de tamaño de ventana
-        window.addEventListener('resize', () => {
-            const wasMobile = video.src.includes('video-mobile');
-            const isNowMobile = window.innerWidth <= 768;
-            if (wasMobile !== isNowMobile) {
-                setVideoSource();
-                tryPlay();
-            }
-        });
+        // Escuchar carga y arrancar
+        video.addEventListener('loadeddata', tryPlay);
+        tryPlay();
     }
 
     // 1. Navbar Scroll Effect
@@ -59,7 +69,6 @@ document.addEventListener("DOMContentLoaded", () => {
     gsap.to(".hero-content", {
         y: "30%",
         opacity: 0,
-        ease: "none",
         scrollTrigger: {
             trigger: ".hero-section",
             start: "top top",
@@ -68,100 +77,108 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Diferenciales Fade In
-    gsap.from(".diferenciales-grid .tilt-card", {
-        y: 100,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.2,
-        ease: "power3.out",
-        scrollTrigger: {
-            trigger: ".diferenciales-section",
-            start: "top 80%",
-        }
-    });
-
-    // 4. La Alquimia (Scroll Timeline)
-    const alchemyTl = gsap.timeline({
-        scrollTrigger: {
-            trigger: ".alquimia-container",
-            start: "top 50%",
-            end: "bottom 80%",
-            scrub: 1 // smooth scrubbing
-        }
-    });
-
-    // Animate the golden drop falling down the thread
-    alchemyTl.to(".golden-drop", {
-        top: "100%",
-        opacity: 1,
-        ease: "none"
-    });
-
-    // Individual trigger for each block to fade in and hover slightly
-    const blocks = document.querySelectorAll('.ingredient-block');
-    blocks.forEach((block, i) => {
-        gsap.to(block, {
-            y: 0,
-            opacity: 1,
+    // Fade In Animations for Sections
+    const fadeElems = document.querySelectorAll('.category-card, .alquimia-content, .faq-item, .contact-container');
+    fadeElems.forEach(elem => {
+        gsap.from(elem, {
+            y: 50,
+            opacity: 0,
             duration: 1,
-            ease: "power2.out",
             scrollTrigger: {
-                trigger: block,
-                start: "top 75%", // Triggers when the top of the block hits 75% depth of viewport
+                trigger: elem,
+                start: "top 85%",
                 toggleActions: "play none none reverse"
             }
         });
     });
 
-    // 5. Carousel Horizontal Scroll Snap & Navigation
-    const slider = document.querySelector('.carousel-container');
-    const prevBtn = document.querySelector('.prev-btn');
-    const nextBtn = document.querySelector('.next-btn');
+    // 4. Mobile Menu Toggle
+    const menuBtn = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
 
-    let isDown = false;
-    let startX;
-    let scrollLeft;
-
-    // Drag to scroll logic
-    slider.addEventListener('mousedown', (e) => {
-        isDown = true;
-        slider.style.cursor = 'grabbing';
-        startX = e.pageX - slider.offsetLeft;
-        scrollLeft = slider.scrollLeft;
-    });
-
-    slider.addEventListener('mouseleave', () => {
-        isDown = false;
-        slider.style.cursor = 'grab';
-    });
-
-    slider.addEventListener('mouseup', () => {
-        isDown = false;
-        slider.style.cursor = 'grab';
-    });
-
-    slider.addEventListener('mousemove', (e) => {
-        if (!isDown) return;
-        e.preventDefault();
-        const x = e.pageX - slider.offsetLeft;
-        const walk = (x - startX) * 2; // scroll-fast
-        slider.scrollLeft = scrollLeft - walk;
-    });
-
-    // Button Navigation Logic
-    if (prevBtn && nextBtn) {
-        // Calculate the width to scroll. Typically one card width + gap.
-        // Assuming 320px card + 32px gap ~= 352px
-        const scrollAmount = 352;
-
-        prevBtn.addEventListener('click', () => {
-            slider.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    if (menuBtn && navLinks) {
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuBtn.classList.toggle('open');
         });
 
-        nextBtn.addEventListener('click', () => {
-            slider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        // Close menu when clicking a link
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                menuBtn.classList.remove('open');
+            });
         });
     }
 
+    // Carousel Logic
+    const initCarousel = () => {
+        const track = document.querySelector('.carousel-track');
+        if (!track) return;
+
+        const slides = Array.from(track.children);
+        const nextButton = document.querySelector('.carousel-btn.next');
+        const prevButton = document.querySelector('.carousel-btn.prev');
+
+        let currentIndex = 0;
+
+        const updateCarousel = () => {
+            const slideWidth = slides[0].getBoundingClientRect().width;
+            track.style.transform = `translateX(-${currentIndex * (slideWidth + 30)}px)`;
+
+            // Opacity and Scale Effect
+            slides.forEach((slide, index) => {
+                if (index === currentIndex) {
+                    slide.style.opacity = '1';
+                    slide.style.transform = 'scale(1)';
+                } else {
+                    slide.style.opacity = '0.5';
+                    slide.style.transform = 'scale(0.9)';
+                }
+            });
+        };
+
+        if (nextButton) {
+            nextButton.addEventListener('click', () => {
+                currentIndex = (currentIndex + 1) % slides.length;
+                updateCarousel();
+            });
+        }
+
+        if (prevButton) {
+            prevButton.addEventListener('click', () => {
+                currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+                updateCarousel();
+            });
+        }
+
+        // Auto-play
+        let autoPlayInterval = setInterval(() => {
+            currentIndex = (currentIndex + 1) % slides.length;
+            updateCarousel();
+        }, 5000);
+
+        track.addEventListener('mouseenter', () => clearInterval(autoPlayInterval));
+        track.addEventListener('mouseleave', () => {
+            autoPlayInterval = setInterval(() => {
+                currentIndex = (currentIndex + 1) % slides.length;
+                updateCarousel();
+            }, 5000);
+        });
+
+        // Initial setup
+        updateCarousel();
+    };
+
+    initCarousel();
+
+    // Initialize VanillaTilt for cards
+    if (typeof VanillaTilt !== 'undefined') {
+        VanillaTilt.init(document.querySelectorAll(".tilt-card"), {
+            max: 15,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.2,
+        });
+    }
 });
