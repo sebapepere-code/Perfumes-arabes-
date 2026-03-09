@@ -263,7 +263,7 @@
 
 @media (max-width: 600px) {
     .giant-text {
-        font-size: 25vw;
+        font-size: 40vw;
         white-space: nowrap;
     }
     .catalog-title {

@@ -20,6 +20,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 
 html {
@@ -747,7 +748,7 @@ a {
 }
 
 .perfume-name {
-    font-size: 1.5rem;
+    font-size: clamp(1rem, 4vw, 1.4rem);
     color: var(--text-white);
     margin: 0.5rem 0 1rem;
 }
@@ -815,10 +816,19 @@ a {
         height: 100vh;
         text-align: center;
         transition: 0.4s ease-in-out;
-        padding-top: 100px;
+        padding-top: 80px;
         align-items: center;
         justify-content: flex-start;
         z-index: 999;
+    }
+
+    .nav-mobile-logo {
+        display: block;
+        color: var(--gold-primary);
+        font-family: var(--font-heading);
+        font-size: 1.6rem;
+        margin-bottom: 2rem;
+        letter-spacing: 2px;
     }
 
     .nav-menu.active {
@@ -826,8 +836,8 @@ a {
     }
 
     .nav-menu a {
-        margin: 1.5rem 0;
-        display: block;
+        margin: 1.5rem auto;
+        display: inline-block; /* ensures the underline spans exactly the word */
         font-size: 1.3rem;
     }
 
