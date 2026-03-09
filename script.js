@@ -1,5 +1,16 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+    // 0. Dynamic Background Video (Performance & Mobile Fix)
+    const heroVideo = document.getElementById('heroVideo');
+    if (heroVideo) {
+        // Usa el video vertical si la pantalla es de móvil, horizontal si es PC
+        if (window.innerWidth <= 768) {
+            heroVideo.src = 'assets/video-mobile.mp4';
+        } else {
+            heroVideo.src = '6a5d34a3-5f54-4dd5-affd-74365827fc5a.mp4';
+        }
+    }
+
     // 1. Navbar Scroll Effect
     const navbar = document.querySelector('.navbar');
     window.addEventListener('scroll', () => {

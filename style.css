@@ -94,10 +94,13 @@ a {
 .blob {
     position: absolute;
     border-radius: 50%;
-    filter: blur(120px);
+    /* filter: blur(120px); Removed heavy blur for pure performance */
     opacity: 0.15;
-    /* Sutil and elegant */
     mix-blend-mode: screen;
+    will-change: transform;
+    pointer-events: none;
+    transform: translateZ(0);
+    /* Hardware acceleration */
 }
 
 .blob-1 {
@@ -158,6 +161,11 @@ a {
     letter-spacing: 2px;
     color: var(--gold-primary);
     text-transform: uppercase;
+}
+
+.nav-mobile-logo {
+    display: none;
+    /* Hide top text in desktop */
 }
 
 .navbar nav a {
@@ -246,10 +254,7 @@ a {
     object-fit: cover;
 }
 
-.mobile-video {
-    display: none;
-}
-
+/* Deleted the .mobile-video class */
 .video-overlay {
     position: absolute;
     top: 0;
@@ -397,13 +402,15 @@ a {
 }
 
 .tilt-card {
-    background: rgba(17, 17, 17, 0.7);
-    backdrop-filter: blur(10px);
+    background: rgba(15, 15, 15, 0.92);
+    /* Removed backdrop-filter for scrolling performance */
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 12px;
     position: relative;
     transform-style: preserve-3d;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    will-change: transform;
+    transform: translateZ(0);
 }
 
 .tilt-card-content {
@@ -948,11 +955,5 @@ a {
 }
 
 @media (max-width: 768px) {
-    .desktop-video {
-        display: none;
-    }
-
-    .mobile-video {
-        display: block;
-    }
+    /* Video handling moved to JS */
 }
