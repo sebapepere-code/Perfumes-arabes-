@@ -1,52 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    // 0. Dynamic Background Video (Performance & Mobile Fix)
-    const heroVideo = document.getElementById('heroVideo');
-    if (heroVideo) {
-        let currentSrc = '';
-        function updateVideoSrc() {
-            const isMobile = window.innerWidth <= 768;
-
-            // Using explicit relative path matching standard HTML structures
-            const desktopVideo = './6a5d34a3-5f54-4dd5-affd-74365827fc5a.mp4';
-            const mobileVideo = './assets/video-mobile.mp4';
-
-            const newSrc = isMobile ? mobileVideo : desktopVideo;
-
-            if (currentSrc !== newSrc) {
-                currentSrc = newSrc;
-
-                heroVideo.pause();
-                heroVideo.removeAttribute('src'); // Completely clear src first to reset state
-                heroVideo.src = newSrc;
-                heroVideo.muted = true;
-                heroVideo.playsInline = true;
-                heroVideo.autoplay = true;
-                heroVideo.load();
-
-                // Keep it simple and aggressive for mobile
-                let playPromise = heroVideo.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(e => {
-                        console.log("Autoplay blocked, attempting silent retry...");
-                        heroVideo.muted = true;
-                        heroVideo.play();
-                    });
-                }
-            }
-        }
-
-        // Set on load
-        updateVideoSrc();
-
-        // Update on resize with slight debounce
-        let resizeTimer;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(updateVideoSrc, 250);
-        });
-    }
-
     // 1. Navbar Scroll Effect
     const navbar = document.querySelector('.navbar');
     window.addEventListener('scroll', () => {

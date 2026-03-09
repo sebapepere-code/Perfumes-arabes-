@@ -43,10 +43,13 @@
 
     <!-- SECTION 1: HERO -->
     <section id="hero" class="hero-section">
-        <div class="video-container" style="background-color: #050505;">
-            <!-- Single video element, source handled by JS to prevent loading both simultaneously, but with multiple sources for broader compatibility. No poster as requested. -->
-            <video id="heroVideo" autoplay loop muted playsinline class="hero-video">
-                <!-- Sources injected by JS depending on screen width -->
+        <div class="video-container" style="background-color: #030303;">
+            <!-- Desktop Video -->
+            <video autoplay loop muted playsinline class="hero-video desktop-video"
+                src="6a5d34a3-5f54-4dd5-affd-74365827fc5a.mp4">
+            </video>
+            <!-- Mobile Video (Vertical) -->
+            <video autoplay loop muted playsinline class="hero-video mobile-video" src="assets/video-mobile.mp4">
             </video>
             <div class="video-overlay"></div>
         </div>
