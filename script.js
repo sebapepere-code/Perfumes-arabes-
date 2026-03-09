@@ -1,22 +1,43 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    // Force Playback for Mobile Video (Definitive Fix)
-    const mobileVid = document.getElementById('mobileHeroVideo');
-    if (mobileVid) {
-        // Force play on various events to bypass mobile restrictions
-        const forcePlay = () => {
-            mobileVid.play().catch(() => {
-                // If it fails, try again on first interaction
-                document.addEventListener('touchstart', () => mobileVid.play(), { once: true });
-                document.addEventListener('click', () => mobileVid.play(), { once: true });
+    // 0. SOLUCIÓN COMPLETA DE VIDEO (Unificada y Forzada)
+    const video = document.getElementById('mainHeroVideo');
+    if (video) {
+        const setVideoSource = () => {
+            const isMobile = window.innerWidth <= 768;
+            const src = isMobile ? 'assets/video-mobile.mp4' : '6a5d34a3-5f54-4dd5-affd-74365827fc5a.mp4';
+            if (video.getAttribute('src') !== src) {
+                video.src = src;
+                video.load();
+            }
+        };
+
+        const tryPlay = () => {
+            video.play().catch(() => {
+                // Si falla (ej. ahorro de batería), se reproduce al primer toque
+                const forceStart = () => {
+                    video.play();
+                    document.removeEventListener('touchstart', forceStart);
+                    document.removeEventListener('click', forceStart);
+                };
+                document.addEventListener('touchstart', forceStart);
+                document.addEventListener('click', forceStart);
             });
         };
 
-        // Try immediately
-        forcePlay();
+        setVideoSource();
+        video.addEventListener('loadedmetadata', tryPlay);
+        tryPlay(); // Intentar de inmediato
 
-        // Also try when metadata is loaded
-        mobileVid.addEventListener('loadedmetadata', forcePlay);
+        // Manejar cambio de tamaño de ventana
+        window.addEventListener('resize', () => {
+            const wasMobile = video.src.includes('video-mobile');
+            const isNowMobile = window.innerWidth <= 768;
+            if (wasMobile !== isNowMobile) {
+                setVideoSource();
+                tryPlay();
+            }
+        });
     }
 
     // 1. Navbar Scroll Effect
