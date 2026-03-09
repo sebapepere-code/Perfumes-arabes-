@@ -212,9 +212,11 @@ a {
 .hamburger.active span:nth-child(1) {
     transform: translateY(9px) rotate(45deg);
 }
+
 .hamburger.active span:nth-child(2) {
     opacity: 0;
 }
+
 .hamburger.active span:nth-child(3) {
     transform: translateY(-9px) rotate(-45deg);
 }
@@ -242,6 +244,10 @@ a {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.mobile-video {
+    display: none;
 }
 
 .video-overlay {
@@ -837,7 +843,8 @@ a {
 
     .nav-menu a {
         margin: 1.5rem auto;
-        display: inline-block; /* ensures the underline spans exactly the word */
+        display: inline-block;
+        /* ensures the underline spans exactly the word */
         font-size: 1.3rem;
     }
 
@@ -867,11 +874,12 @@ a {
         padding: 1.5rem;
         border: 1px solid rgba(212, 175, 55, 0.2);
         border-radius: 12px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
     }
-    
+
     .ingredient-block .ingredient-text {
-        display: contents; /* Break out h3 and p to participate in flex order */
+        display: contents;
+        /* Break out h3 and p to participate in flex order */
     }
 
     .ingredient-block h3 {
@@ -926,15 +934,6 @@ a {
     .carousel-item {
         width: 280px;
         height: 420px;
-        transform-style: flat;
-        transform: none !important;
-        isolation: isolate;
-        background: #020202;
-    }
-    
-    .carousel-item .img-container, 
-    .carousel-item .perfume-info {
-        transform: none !important;
     }
 
     .carousel-btn {
@@ -945,5 +944,15 @@ a {
 @media (max-width: 600px) {
     .navbar {
         padding: 1rem 5%;
+    }
+}
+
+@media (max-width: 768px) {
+    .desktop-video {
+        display: none;
+    }
+
+    .mobile-video {
+        display: block;
     }
 }

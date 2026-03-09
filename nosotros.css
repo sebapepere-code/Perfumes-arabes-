@@ -135,8 +135,10 @@
 .diff-card::before {
     content: '';
     position: absolute;
-    top: 0; left: -100%;
-    width: 50%; height: 100%;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
     background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.05), transparent);
     transform: skewX(-20deg);
     transition: left 0.7s ease;
@@ -226,7 +228,8 @@
     width: 40px;
     height: 40px;
     color: var(--gold-primary);
-    animation: rotateDashed 10s linear infinite reverse; /* counter-rotate icon to keep upright */
+    animation: rotateDashed 10s linear infinite reverse;
+    /* counter-rotate icon to keep upright */
 }
 
 .ingredient-item:hover .ingredient-circle {
@@ -249,19 +252,38 @@
 }
 
 @keyframes rotateDashed {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 @keyframes pulseGlow {
-    0% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.9); }
-    100% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
+    0% {
+        opacity: 0.5;
+        transform: translate(-50%, -50%) scale(0.9);
+    }
+
+    100% {
+        opacity: 0.8;
+        transform: translate(-50%, -50%) scale(1.1);
+    }
 }
 
 /* SECTION 4: FAQ */
 .about-faq {
     padding: 100px 5% 150px;
     background-color: rgba(15, 15, 15, 1);
+}
+
+#faq .section-title {
+    white-space: nowrap;
+    font-size: clamp(1.4rem, 4.5vw, 2.5rem);
+    /* Keeps it on one line on most screens while readable */
+    overflow: hidden;
 }
 
 .faq-container {
@@ -290,7 +312,7 @@
     background: transparent;
     border: none;
     color: var(--text-white);
-    font-size: 1.15rem;
+    font-size: clamp(0.9rem, 3.5vw, 1.05rem);
     font-family: var(--font-body);
     font-weight: 500;
     text-align: left;
@@ -328,14 +350,25 @@
 }
 
 .faq-answer.show {
-    max-height: 500px; /* Arbitrary large max-height for CSS transition */
+    max-height: 500px;
+    /* Arbitrary large max-height for CSS transition */
     padding-bottom: 1.5rem;
     opacity: 1;
 }
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
-    .about-title { font-size: 2.5rem; }
-    .about-container { flex-direction: column; text-align: center; }
-    .ingredients-container { flex-direction: column; gap: 2rem; }
+    .about-title {
+        font-size: 2.5rem;
+    }
+
+    .about-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .ingredients-container {
+        flex-direction: column;
+        gap: 2rem;
+    }
 }

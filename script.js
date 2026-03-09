@@ -1,18 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    // Disable VanillaTilt on mobile immediately to prevent 3D mix-blend-mode bug
-    if (window.innerWidth <= 768) {
-        const tiltCards = document.querySelectorAll('[data-tilt]');
-        tiltCards.forEach(card => {
-            if (card.vanillaTilt) {
-                card.vanillaTilt.destroy();
-            }
-            card.removeAttribute('data-tilt');
-            card.removeAttribute('data-tilt-glare');
-            card.removeAttribute('data-tilt-max-glare');
-        });
-    }
-
     // 1. Navbar Scroll Effect
     const navbar = document.querySelector('.navbar');
     window.addEventListener('scroll', () => {
