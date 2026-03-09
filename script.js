@@ -1,54 +1,19 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    // 0. NUEVO SISTEMA DE VIDEO (ESTABILIDAD TOTAL)
-    const heroBg = document.getElementById('hero-background');
-    if (heroBg) {
-        const isMobile = window.innerWidth <= 768;
-        const videoSrc = isMobile ? 'assets/video-mobile.mp4' : '6a5d34a3-5f54-4dd5-affd-74365827fc5a.mp4';
-
-        // Creamos el elemento de video dinámicamente para asegurar limpieza
-        const video = document.createElement('video');
-        video.id = 'hero-video';
-        video.muted = true;
-        video.loop = true;
-        video.playsInline = true;
-        video.autoplay = true;
-        video.setAttribute('preload', 'auto');
-        video.className = 'hero-video-fresh';
-
-        // Agregamos el source
-        const source = document.createElement('source');
-        source.src = videoSrc;
-        source.type = 'video/mp4';
-        video.appendChild(source);
-
-        // Limpiamos el contenedor y agregamos el video
-        heroBg.innerHTML = '';
-        heroBg.appendChild(video);
-
-        const overlay = document.createElement('div');
-        overlay.className = 'hero-video-overlay';
-        heroBg.appendChild(overlay);
-
-        const tryPlay = () => {
-            video.play().catch(() => {
-                // Fallback para ahorro de batería: reproducir al interactuar
-                const runOnInteraction = () => {
-                    video.play();
-                    document.removeEventListener('click', runOnInteraction);
-                    document.removeEventListener('touchstart', runOnInteraction);
-                    document.removeEventListener('scroll', runOnInteraction);
-                };
-                document.addEventListener('click', runOnInteraction);
-                document.addEventListener('touchstart', runOnInteraction);
-                document.addEventListener('scroll', runOnInteraction);
-            });
-        };
-
-        // Escuchar carga y arrancar
-        video.addEventListener('loadeddata', tryPlay);
-        tryPlay();
-    }
+    // 0. VIDEO: Forzar reproducción si el navegador la bloqueó (ej. ahorro de batería)
+    document.querySelectorAll('.hero-video-fresh').forEach(vid => {
+        // Intento inmediato
+        vid.play().catch(() => {
+            // Al primer toque del usuario, arrancar
+            const onInteract = () => {
+                vid.play();
+                document.removeEventListener('touchstart', onInteract);
+                document.removeEventListener('scroll', onInteract);
+            };
+            document.addEventListener('touchstart', onInteract, { passive: true });
+            document.addEventListener('scroll', onInteract, { passive: true, once: true });
+        });
+    });
 
     // 1. Navbar Scroll Effect
     const navbar = document.querySelector('.navbar');

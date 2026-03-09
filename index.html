@@ -44,7 +44,14 @@
     <!-- SECTION 1: HERO -->
     <section id="hero" class="hero-section">
         <div id="hero-background" class="hero-background">
-            <!-- NEW VIDEO SYSTEM WILL GO HERE -->
+            <!-- VIDEO: Static tags are most reliable for mobile autoplay. CSS shows/hides based on screen size. -->
+            <video class="hero-video-fresh desktop-only-video" autoplay muted loop playsinline>
+                <source src="6a5d34a3-5f54-4dd5-affd-74365827fc5a.mp4" type="video/mp4">
+            </video>
+            <video class="hero-video-fresh mobile-only-video" autoplay muted loop playsinline>
+                <source src="assets/video-mobile.mp4" type="video/mp4">
+            </video>
+            <div class="hero-video-overlay"></div>
         </div>
         <div class="hero-content">
             <div class="hero-glass-container">

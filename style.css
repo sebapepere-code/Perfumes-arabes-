@@ -957,5 +957,34 @@ a {
 }
 
 @media (max-width: 768px) {
-    /* Cleanup for new video system */
+
+    /* ─── VÍDEO: Se muestra la versión correcta para cada pantalla ─── */
+    .desktop-only-video {
+        display: none !important;
+    }
+
+    .mobile-only-video {
+        display: block !important;
+    }
+
+    /* Bloquear posición del ingredient block cuando hay GSAP opacity 0 */
+    .ingredient-block {
+        opacity: 1 !important;
+        transform: none !important;
+        visibility: visible !important;
+    }
+
+    /* Carousel: acceso fácil a todas las cards */
+    .carousel-item {
+        flex-shrink: 0;
+    }
+}
+
+/* Default: Mostrar desktop, ocultar mobile */
+.desktop-only-video {
+    display: block;
+}
+
+.mobile-only-video {
+    display: none;
 }
