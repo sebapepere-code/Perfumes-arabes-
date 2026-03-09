@@ -57,6 +57,23 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    // Animate the Golden Drop Line in the Materials Section
+    const goldenDrop = document.querySelector('.golden-drop');
+    if (goldenDrop) {
+        gsap.to(goldenDrop, {
+            top: '100%',
+            opacity: 1,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: '.alquimia-container',
+                start: 'top 80%',
+                end: 'bottom 20%',
+                scrub: 1
+            }
+        });
+        gsap.from(goldenDrop, { opacity: 0 });
+    }
+
     // 4. Mobile Menu Toggle
     const menuBtn = document.querySelector('.menu-toggle');
     const navLinks = document.querySelector('.nav-links');
@@ -76,30 +93,25 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Carousel Logic
+    // Carousel Logic (Estabilidad total: sin opacity 0, con swipe en móvil)
     const initCarousel = () => {
         const track = document.querySelector('.carousel-track');
         if (!track) return;
 
         const slides = Array.from(track.children);
-        const nextButton = document.querySelector('.carousel-btn.next');
-        const prevButton = document.querySelector('.carousel-btn.prev');
-
+        const nextButton = document.querySelector('.carousel-btn.next-btn');
+        const prevButton = document.querySelector('.carousel-btn.prev-btn');
         let currentIndex = 0;
 
-        const updateCarousel = () => {
-            const slideWidth = slides[0].getBoundingClientRect().width;
-            track.style.transform = `translateX(-${currentIndex * (slideWidth + 30)}px)`;
+        const getSlideWidth = () => slides[0].getBoundingClientRect().width + 30;
 
-            // Opacity and Scale Effect
-            slides.forEach((slide, index) => {
-                if (index === currentIndex) {
-                    slide.style.opacity = '1';
-                    slide.style.transform = 'scale(1)';
-                } else {
-                    slide.style.opacity = '0.5';
-                    slide.style.transform = 'scale(0.9)';
-                }
+        const updateCarousel = () => {
+            const offset = currentIndex * getSlideWidth();
+            track.style.transform = `translateX(-${offset}px)`;
+            // Todas las cards son completamente visibles, sin opacity 0
+            slides.forEach(slide => {
+                slide.style.opacity = '1';
+                slide.style.transform = 'none';
             });
         };
 
@@ -117,21 +129,33 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
 
-        // Auto-play
-        let autoPlayInterval = setInterval(() => {
-            currentIndex = (currentIndex + 1) % slides.length;
-            updateCarousel();
-        }, 5000);
+        // Swipe touch support for mobile
+        let touchStartX = 0;
+        track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+        track.addEventListener('touchend', e => {
+            const diff = touchStartX - e.changedTouches[0].clientX;
+            if (Math.abs(diff) > 40) {
+                if (diff > 0) currentIndex = (currentIndex + 1) % slides.length;
+                else currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+                updateCarousel();
+            }
+        }, { passive: true });
 
-        track.addEventListener('mouseenter', () => clearInterval(autoPlayInterval));
-        track.addEventListener('mouseleave', () => {
-            autoPlayInterval = setInterval(() => {
+        // Auto-play (solo en desktop)
+        if (window.innerWidth > 768) {
+            let autoPlay = setInterval(() => {
                 currentIndex = (currentIndex + 1) % slides.length;
                 updateCarousel();
             }, 5000);
-        });
+            track.addEventListener('mouseenter', () => clearInterval(autoPlay));
+            track.addEventListener('mouseleave', () => {
+                autoPlay = setInterval(() => {
+                    currentIndex = (currentIndex + 1) % slides.length;
+                    updateCarousel();
+                }, 5000);
+            });
+        }
 
-        // Initial setup
         updateCarousel();
     };
 
