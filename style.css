@@ -239,31 +239,17 @@ a {
     overflow: hidden;
 }
 
-.video-container {
+
+.hero-background {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     z-index: 1;
+    background: #000;
 }
 
-.hero-video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    background-color: #000;
-}
-
-.video-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.6) 80%, var(--bg-deep-black) 100%);
-    z-index: 2;
-}
 
 .hero-content {
     position: relative;
@@ -955,5 +941,5 @@ a {
 }
 
 @media (max-width: 768px) {
-    /* Video handling optimized in script.js */
+    /* Cleanup for new video system */
 }
