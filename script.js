@@ -1,5 +1,24 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+    // Force Playback for Mobile Video (Definitive Fix)
+    const mobileVid = document.getElementById('mobileHeroVideo');
+    if (mobileVid) {
+        // Force play on various events to bypass mobile restrictions
+        const forcePlay = () => {
+            mobileVid.play().catch(() => {
+                // If it fails, try again on first interaction
+                document.addEventListener('touchstart', () => mobileVid.play(), { once: true });
+                document.addEventListener('click', () => mobileVid.play(), { once: true });
+            });
+        };
+
+        // Try immediately
+        forcePlay();
+
+        // Also try when metadata is loaded
+        mobileVid.addEventListener('loadedmetadata', forcePlay);
+    }
+
     // 1. Navbar Scroll Effect
     const navbar = document.querySelector('.navbar');
     window.addEventListener('scroll', () => {
