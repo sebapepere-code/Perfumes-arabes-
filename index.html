@@ -45,11 +45,12 @@
     <section id="hero" class="hero-section">
         <div class="video-container" style="background-color: #030303;">
             <!-- Desktop Video -->
-            <video autoplay loop muted playsinline class="hero-video desktop-video"
+            <video muted autoplay loop playsinline class="hero-video desktop-video"
                 src="6a5d34a3-5f54-4dd5-affd-74365827fc5a.mp4">
             </video>
-            <!-- Mobile Video (Vertical) -->
-            <video autoplay loop muted playsinline class="hero-video mobile-video" src="assets/video-mobile.mp4">
+            <!-- Mobile Video (Vertical) - Dedicated ID for JS playback fail-safe -->
+            <video id="mobileHeroVideo" muted autoplay loop playsinline class="hero-video mobile-video">
+                <source src="assets/video-mobile.mp4" type="video/mp4">
             </video>
             <div class="video-overlay"></div>
         </div>
