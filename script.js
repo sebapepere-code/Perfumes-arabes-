@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Fade In Animations for Sections
-    const fadeElems = document.querySelectorAll('.category-card, .alquimia-content, .faq-item, .contact-container');
+    const fadeElems = document.querySelectorAll('.category-card, .alquimia-content, .faq-item, .contact-container, .ingredient-block');
     fadeElems.forEach(elem => {
         gsap.from(elem, {
             y: 50,

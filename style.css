@@ -513,8 +513,6 @@ a {
     margin-bottom: 8rem;
     position: relative;
     z-index: 1;
-    opacity: 0;
-    transform: translateY(50px);
 }
 
 .ingredient-block.reverse {
